@@ -610,6 +610,12 @@ unsafeCString cstr = rebuild $ let
 
 foreign import ccall unsafe "strlen" c_pure_strlen :: CString -> CSize
 
+unsafeCStringLen :: CStringLen -> Builder
+unsafeCStringLen (ptr, len) = mappend (ensureBytes len) $ mkBuilder $ do
+  cur <- getCur
+  io $ copyBytes cur (castPtr ptr) len
+  setCur $ cur `plusPtr` len
+
 -- | @'ensureBytes' n@ ensures that at least @n@ bytes of free space is
 -- available in the current buffer, by allocating a new buffer when
 -- necessary.
