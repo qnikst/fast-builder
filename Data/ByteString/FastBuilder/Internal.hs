@@ -466,9 +466,14 @@ toStrictByteString builder = unsafePerformIO $ do
   return $ S.fromForeignPtr endFptr 0 written
 
 -- | Output a 'Builder' to a 'IO.Handle'.
-hPutBuilder :: IO.Handle -> Builder -> IO ()
-hPutBuilder !h builder = do
-  let cap = 100
+hPutBuilderCap :: IO.Handle -> Builder -> IO ()
+hPutBuilderCap !h builder = hPutBuilderCap h 100 builder
+
+-- | Output a 'Builder' to a 'IO.Handle'.
+-- Allows to set initial capacity, useful for a very large writes.
+hPutBuilderCapacity :: IO.Handle -> Int -> Builder -> IO ()
+hPutBuilderCapacity !h capacity builder = do
+  let cap = capacity 
   fptr <- mallocForeignPtrBytes cap
   qRef <- newIORef $ Queue fptr 0
   let !base = unsafeForeignPtrToPtr fptr
