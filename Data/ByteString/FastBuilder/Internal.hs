@@ -51,6 +51,7 @@ module Data.ByteString.FastBuilder.Internal
   , byteStringCopyNoCheck
   , byteStringInsert
   , unsafeCString
+  , unsafeCStringLen
   , ensureBytes
   , getBytes
 
