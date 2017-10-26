@@ -39,6 +39,7 @@ module Data.ByteString.FastBuilder.Internal
   , toLazyByteStringWith
   , toStrictByteString
   , hPutBuilder
+  , hPutBuilderCapacity
 
   -- * Basic builders
   , primBounded
